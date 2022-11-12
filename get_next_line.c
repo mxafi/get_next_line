@@ -6,7 +6,7 @@
 /*   By: malaakso <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:34 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/11 20:24:15 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/12 12:38:32 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 char	*get_next_line(int fd)
 {
-	char				*buffer;
+	char				buffer[BUFFER_SIZE];
 	static ssize_t		n_bytes_read;
 	char				*line;
 	static char			*stash;
 	static size_t		stash_size;
 
-	buffer = malloc(BUFFER_SIZE);
-	if (!buffer)
-		return (NULL);
 	if (!stash)
 		stash = malloc(BUFFER_SIZE);
 	else
