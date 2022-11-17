@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: malaakso <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:53 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/12 12:35:50 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:09:36 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,9 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*ft_strndup(const char *s1, size_t n);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif
