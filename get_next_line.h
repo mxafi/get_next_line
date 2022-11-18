@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:53 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/17 17:09:36 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:19:21 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*ft_strdup(const char *s1);
 char	*ft_strndup(const char *s1, size_t n);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);

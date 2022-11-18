@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:44 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/17 17:36:02 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:20:14 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	char	*p;
 	size_t	i;
 
-	p = malloc(n + 1);
+	p = ft_calloc(n + 1, 1);
 	if (!p)
 		return (0);
 	p[n] = '\0';
@@ -91,5 +91,27 @@ char	*ft_strchr(const char *s, int c)
 		p++;
 	if ((char)c != '\0' && *p == '\0')
 		return (0);
+	return (p);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	size_t	s1_len;
+	char	*p;
+	size_t	i;
+
+	s1_len = 0;
+	while (s1[s1_len])
+		s1_len++;
+	p = malloc(s1_len + 1);
+	if (!p)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	p[i] = 0;
 	return (p);
 }

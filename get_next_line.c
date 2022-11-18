@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:34 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/18 13:54:23 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:52:40 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ret_line(char *stash, ssize_t read_value)
 		return (NULL);
 	chr = ft_strchr(stash, '\n');
 	if (!chr)
-		return (ft_strndup(stash, read_value));
+		return (ft_strdup(stash));
 	i = 0;
 	while (stash[i] != '\n')
 		i++;
@@ -61,15 +61,25 @@ char	*ret_line(char *stash, ssize_t read_value)
 	return (line);
 }
 
-char	*trim_stash_nl(char *stash)
+char	*trim_stash(char *stash, ssize_t read_value)
 {
 	char	*new_stash;
 	char	*chr;
 	size_t	len;
 
-	chr = ft_strchr(stash, '\n');
-	if (!chr)
+
+	if (read_value <= 0)
+	{
+		free(stash);
 		return (NULL);
+	}
+	chr = ft_strchr(stash, '\n');
+	if (!chr && read_value > 0)
+	{
+		new_stash = ft_calloc(1, 1);
+		free(stash);
+		return (new_stash);
+	}
 	chr++;
 	len = 0;
 	while (chr[len])
@@ -95,16 +105,16 @@ char	*get_next_line(int fd)
 		stash = ft_calloc(1, 1);
 	if (!buffer || !stash)
 		return (NULL);
-	n_bytes_read = read(fd, buffer, BUFFER_SIZE);
-	while (!ft_strchr(stash, '\n') && n_bytes_read > 0)
+	n_bytes_read = BUFFER_SIZE;
+	while (!ft_strchr(stash, '\n') && n_bytes_read == BUFFER_SIZE)
 	{
+		n_bytes_read = read(fd, buffer, BUFFER_SIZE);
 		stash = append_str(buffer, stash, n_bytes_read);
 		if (!stash)
 			return (NULL);
-		n_bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	line = ret_line(stash, n_bytes_read);
-	stash = trim_stash_nl(stash);
+	stash = trim_stash(stash, n_bytes_read);
 	return (line);
 }
