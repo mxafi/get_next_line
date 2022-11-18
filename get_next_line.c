@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:34 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/17 19:16:28 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/18 13:54:23 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,17 @@ char	*append_str(char *input, char *original, size_t input_len)
 	return (final);
 }
 
-char	*ret_final_line(char *stash, ssize_t read_value)
-{
-	char	*line;
-
-	if (read_value <= 0)
-		return (NULL);
-	line = ft_strndup(stash, read_value);
-	return (line);
-}
-
 char	*ret_line(char *stash, ssize_t read_value)
 {
 	char	*line;
 	char	*chr;
 	size_t	i;
 
+	if (read_value <= 0)
+		return (NULL);
 	chr = ft_strchr(stash, '\n');
 	if (!chr)
-		return (ret_final_line(stash, read_value));
+		return (ft_strndup(stash, read_value));
 	i = 0;
 	while (stash[i] != '\n')
 		i++;
