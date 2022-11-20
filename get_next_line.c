@@ -6,7 +6,7 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:34 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/18 17:52:40 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/20 14:56:58 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ char	*append_str(char *input, char *original, size_t input_len)
 	size_t	final_len;
 
 	if (!input_len)
-	{
-		while (input[input_len])
-			input_len++;
-	}
+		return (original);
 	original_len = 0;
 	while (original[original_len])
 		original_len++;
@@ -41,7 +38,7 @@ char	*ret_line(char *stash, ssize_t read_value)
 	char	*chr;
 	size_t	i;
 
-	if (read_value <= 0)
+	if ((!read_value && !*stash) || read_value < 0)
 		return (NULL);
 	chr = ft_strchr(stash, '\n');
 	if (!chr)
@@ -98,7 +95,7 @@ char	*get_next_line(int fd)
 	static char			*stash;
 	char				*line;
 
-	if (BUFFER_SIZE < 1 || fd < 0 || fd > 1000)
+	if (BUFFER_SIZE < 1 || fd < 0 || fd > 1000 || read(fd, NULL, 0) < 0)
 		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
 	if (!stash)
