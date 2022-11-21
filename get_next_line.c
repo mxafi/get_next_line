@@ -6,13 +6,30 @@
 /*   By: malaakso <malaakso@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:34 by malaakso          #+#    #+#             */
-/*   Updated: 2022/11/20 14:56:58 by malaakso         ###   ########.fr       */
+/*   Updated: 2022/11/21 19:07:54 by malaakso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*append_str(char *input, char *original, size_t input_len)
+static int	handle_double_malloc_fail(char *stash, char *buffer)
+{
+	if (!stash && !buffer)
+		return (0);
+	if (!stash)
+	{
+		free(buffer);
+		return (0);
+	}
+	if (!buffer)
+	{
+		free(stash);
+		return (0);
+	}
+	return (1);
+}
+
+static char	*append_str(char *input, char *original, size_t input_len)
 {
 	char	*final;
 	size_t	original_len;
@@ -32,7 +49,7 @@ char	*append_str(char *input, char *original, size_t input_len)
 	return (final);
 }
 
-char	*ret_line(char *stash, ssize_t read_value)
+static char	*ret_line(char *stash, ssize_t read_value)
 {
 	char	*line;
 	char	*chr;
@@ -58,12 +75,11 @@ char	*ret_line(char *stash, ssize_t read_value)
 	return (line);
 }
 
-char	*trim_stash(char *stash, ssize_t read_value)
+static char	*trim_stash(char *stash, ssize_t read_value)
 {
 	char	*new_stash;
 	char	*chr;
 	size_t	len;
-
 
 	if (read_value <= 0)
 	{
@@ -86,8 +102,6 @@ char	*trim_stash(char *stash, ssize_t read_value)
 	return (new_stash);
 }
 
-// Remember to double check everything is freed on malloc fail gracefully. ajkshlkajsdhlkajshdlkajsda
-
 char	*get_next_line(int fd)
 {
 	char				*buffer;
@@ -100,14 +114,14 @@ char	*get_next_line(int fd)
 	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
 	if (!stash)
 		stash = ft_calloc(1, 1);
-	if (!buffer || !stash)
+	if (!handle_double_malloc_fail(stash, buffer))
 		return (NULL);
 	n_bytes_read = BUFFER_SIZE;
 	while (!ft_strchr(stash, '\n') && n_bytes_read == BUFFER_SIZE)
 	{
 		n_bytes_read = read(fd, buffer, BUFFER_SIZE);
 		stash = append_str(buffer, stash, n_bytes_read);
-		if (!stash)
+		if (!handle_double_malloc_fail(stash, buffer))
 			return (NULL);
 	}
 	free(buffer);
